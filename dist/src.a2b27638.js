@@ -176,7 +176,83 @@ module.hot.accept(reloadCSS);
 "use strict";
 
 require("./styles.css");
-document.getElementById("app").innerHTML = "\n<h1>Hello Vanilla!</h1>\n<div>\n  We use the same configuration as Parcel to bundle this sandbox, you can find more\n  info about Parcel \n  <a href=\"https://parceljs.org\" target=\"_blank\" rel=\"noopener noreferrer\">here</a>.\n</div>\n";
+// 未完了TODO作成処理
+var funcCreateTodo = function funcCreateTodo(taskName) {
+  // タスク名生成
+  var textP = document.createElement("p");
+  textP.className = "list-content";
+  textP.innerText = taskName;
+
+  // 完了ボタン生成
+  var buttonComplete = document.createElement("button");
+  buttonComplete.innerText = "完了";
+  buttonComplete.addEventListener("click", function () {
+    var completeTarget = buttonComplete.parentNode.parentNode; // button - div - li
+    var completedTaskName = buttonComplete.parentNode.firstElementChild.innerText; // button - div - p.innertext
+    var incompleteList = completeTarget.parentNode; // lu
+    incompleteList.removeChild(completeTarget);
+    funcCompleteTodo(completedTaskName);
+  });
+
+  // 削除ボタン生成
+  var buttonDelete = document.createElement("button");
+  buttonDelete.innerText = "削除";
+  buttonDelete.addEventListener("click", function () {
+    var deleteTarget = buttonDelete.parentNode.parentNode; // button - div - li
+    var parentList = deleteTarget.parentNode; // lu
+    parentList.removeChild(deleteTarget);
+  });
+
+  // タグ構築
+  var div = document.createElement("div");
+  div.className = "list-row";
+  div.appendChild(textP);
+  div.appendChild(buttonComplete);
+  div.appendChild(buttonDelete);
+  var li = document.createElement("li");
+  li.appendChild(div);
+  document.getElementById("incomplete-list").appendChild(incompleteItem);
+};
+
+// 完了TODO作成処理
+var funcCompleteTodo = function funcCompleteTodo(taskName) {
+  // タスク名生成
+  var textP = document.createElement("p");
+  textP.className = "list-content";
+  textP.innerText = taskName;
+
+  // 戻るボタン生成
+  var buttonBack = document.createElement("button");
+  buttonBack.innerText = "戻す";
+  buttonBack.addEventListener("click", function () {
+    var backTarget = buttonBack.parentNode.parentNode; // button - div - li
+    var incompleteTaskName = buttonBack.parentNode.firstElementChild.innerText; // button - div - p.innertext
+    // 完了リストから削除
+    backTarget.parentNode.removeChild(backTarget);
+    // 対象タスク名を元に未完了TODOを再生成・登録
+    funcCreateTodo(incompleteTaskName);
+  });
+
+  // タグ構築
+  var div = document.createElement("div");
+  div.className = "list-row";
+  div.appendChild(textP);
+  div.appendChild(buttonBack);
+  var li = document.createElement("li");
+  li.appendChild(div);
+  document.getElementById("complete-list").appendChild(completedItem);
+};
+
+// 新規タスク登録処理
+var onClickAdd = function onClickAdd() {
+  // タスクを追加する
+  var inputText = document.getElementById("add-text").value;
+  document.getElementById("add-text").value = "";
+  funcCreateTodo(inputText);
+};
+
+// イベントリスナ登録
+document.getElementById("add-button").addEventListener("click", onClickAdd);
 },{"./styles.css":"src/styles.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -202,7 +278,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37433" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38355" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
